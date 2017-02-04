@@ -1,7 +1,7 @@
 Python Word Segmentation
 ========================
 
-`ZhSegment`_ is an Apache2 licensed module for English word
+`zh_segment`_ is an Apache2 licensed module for English word
 segmentation, written in pure-Python, and based on a trillion-word corpus.
 
 Based on code from the chapter "`Natural Language Corpus Data`_" by Peter
@@ -14,7 +14,7 @@ data. The unigram data includes only the most common 333,000 words. Similarly,
 bigram data includes only the most common 250,000 phrases. Every word and
 phrase is lowercased with punctuation removed.
 
-.. _`ZhSegment`: https://github.com/wuhaifengdhu/zh_segment/docs
+.. _`zh_segment`: https://github.com/wuhaifengdhu/zh_segment/docs
 .. _`Natural Language Corpus Data`: http://norvig.com/ngrams/
 .. _`Beautiful Data`: http://oreilly.com/catalog/9780596157111/
 .. _`Google Web Trillion Word Corpus`: http://googleresearch.blogspot.com/2006/08/all-our-n-gram-are-belong-to-you.html
@@ -38,16 +38,16 @@ Features
 Quickstart
 ----------
 
-Installing ZhSegment is simple with
+Installing zh_segment is simple with
 `pip <http://www.pip-installer.org/>`_::
 
-    $ pip install ZhSegment
+    $ pip install zh_segment
 
 You can access documentation in the interpreter with Python's built-in help
 function::
 
-    >>> import ZhSegment
-    >>> help(ZhSegment)
+    >>> import zh_segment
+    >>> help(zh_segment)
 
 Tutorial
 --------
@@ -55,16 +55,16 @@ Tutorial
 In your own Python programs, you'll mostly want to use `segment` to divide a
 phrase into a list of its parts::
 
-    >>> from ZhSegment import segment
+    >>> from zh_segment import segment
     >>> segment('thisisatest')
     ['this', 'is', 'a', 'test']
 
-ZhSegment also provides a command-line interface for batch processing. This
+zh_segment also provides a command-line interface for batch processing. This
 interface accepts two arguments: in-file and out-file. Lines from in-file are
 iteratively segmented, joined by a space, and written to out-file. Input and
 output default to stdin and stdout respectively. ::
 
-    $ echo thisisatest | python -m ZhSegment
+    $ echo thisisatest | python -m zh_segment
     this is a test
 
 The maximum segmented word length is 24 characters. Neither the unigram nor
@@ -72,7 +72,7 @@ bigram data contain words exceeding that length. The corpus also excludes
 punctuation and all letters have been lowercased. Before segmenting text,
 `clean` is called to transform the input to a canonical form::
 
-    >>> from ZhSegment import clean
+    >>> from zh_segment import clean
     >>> clean('She said, "Python rocks!"')
     'shesaidpythonrocks'
     >>> segment('She said, "Python rocks!"')
@@ -81,7 +81,7 @@ punctuation and all letters have been lowercased. Before segmenting text,
 Sometimes its interesting to explore the unigram and bigram counts
 themselves. These are stored in Python dictionaries mapping word to count. ::
 
-    >>> import ZhSegment as ws
+    >>> import zh_segment as ws
     >>> ws.load()
     >>> ws.UNIGRAMS['the']
     23135851162.0
@@ -116,23 +116,23 @@ Some bigrams begin with `<s>`. This is to indicate the start of a bigram::
     >>> ws.BIGRAMS['<s> what']
     11779290.0
 
-The unigrams and bigrams data is stored in the `ZhSegment_data` directory in
+The unigrams and bigrams data is stored in the `zh_segment_data` directory in
 the `unigrams.txt` and `bigrams.txt` files respectively.
 
 Reference and Indices
 ---------------------
 
-* `ZhSegment Documentation`_
-* `ZhSegment at PyPI`_
-* `ZhSegment at Github`_
-* `ZhSegment Issue Tracker`_
+* `zh_segment Documentation`_
+* `zh_segment at PyPI`_
+* `zh_segment at Github`_
+* `zh_segment Issue Tracker`_
 
-.. _`ZhSegment Documentation`: https://github.com/wuhaifengdhu/zh_segment/docs
-.. _`ZhSegment at PyPI`: https://pypi.python.org/pypi/zh_segment
-.. _`ZhSegment at Github`: https://github.com/wuhaifengdhu/zh_segment
-.. _`ZhSegment Issue Tracker`: https://github.com/wuhaifengdhu/zh_segment/issues
+.. _`zh_segment Documentation`: https://github.com/wuhaifengdhu/zh_segment/docs
+.. _`zh_segment at PyPI`: https://pypi.python.org/pypi/zh_segment
+.. _`zh_segment at Github`: https://github.com/wuhaifengdhu/zh_segment
+.. _`zh_segment Issue Tracker`: https://github.com/wuhaifengdhu/zh_segment/issues
 
-ZhSegment License
+zh_segment License
 -------------------
 
 Copyright 2016 Grant Jenks
