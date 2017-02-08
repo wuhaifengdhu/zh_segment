@@ -15,7 +15,7 @@ should accompany this file. A copy of these files may be found at
 http://norvig.com/ngrams/ under the names count_1w.txt and count_2w.txt
 respectively.
 
-Copyright (c) 2016 by Grant Jenks
+Copyright (c) 2016 by Wu Haifeng
 
 Based on code from the chapter "Natural Language Corpus Data"
 from the book "Beautiful Data" (Segaran and Hammerbacher, 2009)
@@ -29,16 +29,20 @@ import io
 import math
 import os.path as op
 import sys
+import re
 
 ALPHABET = set('abcdefghijklmnopqrstuvwxyz0123456789')
+SEPARATORS = set(';')
 BIGRAMS = None
 DATADIR = op.join(op.dirname(op.realpath(__file__)), 'zh_segment_data')
 TOTAL = 1024908267229.0
 UNIGRAMS = None
 
+
 def clean(text):
     "Return `text` lower-cased with non-alphanumeric characters removed."
-    return ''.join(letter for letter in text.lower() if letter in ALPHABET)
+    return ''.join(letter for letter in text.lower() if letter not in SEPARATORS)
+
 
 def divide(text, limit=24):
     """Yield `(prefix, suffix)` pairs from `text` with `len(prefix)` not
@@ -48,17 +52,20 @@ def divide(text, limit=24):
     for pos in range(1, min(len(text), limit) + 1):
         yield (text[:pos], text[pos:])
 
+
 def load():
     "Load unigram and bigram counts from disk."
     global UNIGRAMS, BIGRAMS  # pylint: disable=global-statement
     UNIGRAMS = parse_file(op.join(DATADIR, 'unigrams.txt'))
     BIGRAMS = parse_file(op.join(DATADIR, 'bigrams.txt'))
 
+
 def parse_file(filename):
     "Read `filename` and parse tab-separated file of (word, count) pairs."
     with io.open(filename, encoding='utf-8') as reader:
         lines = (line.split('\t') for line in reader)
         return dict((word, float(number)) for word, number in lines)
+
 
 def score(word, prev=None):
     "Score a `word` in the context of the previous word, `prev`."
@@ -91,6 +98,7 @@ def score(word, prev=None):
             # Fall back to using the unigram probability.
 
             return score(word)
+
 
 def isegment(text):
     "Return iterator of words that is the best segmenation of `text`."
@@ -138,9 +146,14 @@ def isegment(text):
     for word in prefix_words:
         yield word
 
+
 def segment(text):
     "Return a list of words that is the best segmenation of `text`."
-    return list(isegment(text))
+    result = []
+    for x in re.split(';', text):
+        result.extend(list(isegment(x)))
+    return result
+
 
 def main(args=()):
     """Command-line entry-point. Parses `args` into in-file and out-file then
@@ -164,11 +177,12 @@ def main(args=()):
         streams.outfile.write(os.linesep)
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    # main(sys.argv[1:])
+    print segment('1077501; 1296599; 5000; 5000; 4975; 36 months; 10.64%; 162.87; B; B2;;10+ years;RENT')
 
 __title__ = 'zh_segment'
-__version__ = '0.8.0'
+__version__ = '0.2.0.0'
 __build__ = 0x000800
-__author__ = 'Grant Jenks'
+__author__ = 'Wu Haifeng'
 __license__ = 'Apache 2.0'
-__copyright__ = 'Copyright 2016 Grant Jenks'
+__copyright__ = 'Copyright 2016 Wu Haifeng'

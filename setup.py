@@ -25,7 +25,7 @@ setup(
     long_description=readme,
     author='Wu Haifeng',
     author_email='wuhaifengdhu@163.com',
-    url='https://github.com/wuhaifengdhu/zh_segment/docs',
+    url='https://github.com/wuhaifengdhu/zh_segment/tree/master/docs',
     py_modules=['zh_segment'],
     packages=['zh_segment_data'],
     package_data={'zh_segment_data': ['*.txt']},

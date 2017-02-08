@@ -11,6 +11,6 @@
 /dist/
 /zh_segment.egg-info/
 /.tox/
-
+build/*
 .DS_Store
 .idea/*

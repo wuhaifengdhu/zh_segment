@@ -51,8 +51,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Word Segment'
-copyright = u'2016, Grant Jenks'
-author = u'Grant Jenks'
+copyright = u'2016, Wu Haifeng'
+author = u'Wu Haifeng'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -246,7 +246,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   (master_doc, 'zh_segment.tex', u'zh_segment Documentation',
-   u'Grant Jenks', 'manual'),
+   u'Wu Haifeng', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

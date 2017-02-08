@@ -14,7 +14,7 @@ data. The unigram data includes only the most common 333,000 words. Similarly,
 bigram data includes only the most common 250,000 phrases. Every word and
 phrase is lowercased with punctuation removed.
 
-.. _`zh_segment`: https://github.com/wuhaifengdhu/zh_segment/docs
+.. _`zh_segment`: https://github.com/wuhaifengdhu/zh_segment/tree/master/docs
 .. _`Natural Language Corpus Data`: http://norvig.com/ngrams/
 .. _`Beautiful Data`: http://oreilly.com/catalog/9780596157111/
 .. _`Google Web Trillion Word Corpus`: http://googleresearch.blogspot.com/2006/08/all-our-n-gram-are-belong-to-you.html
@@ -32,7 +32,7 @@ Features
 - Developed on Python 2.7
 - Tested on CPython 2.6, 2.7, 3.2, 3.3, 3.4 and PyPy 2.5+, PyPy3 2.4+
 
-.. image:: https://github.com/wuhaifengdhu/zh_segment/docs/_static/zh_segment.png
+.. image:: https://github.com/wuhaifengdhu/zh_segment/tree/master/docs/_static/zh_segment.png
     :target: https://github.com/wuhaifengdhu/zh_segment
 
 Quickstart
@@ -127,7 +127,7 @@ Reference and Indices
 * `zh_segment at Github`_
 * `zh_segment Issue Tracker`_
 
-.. _`zh_segment Documentation`: https://github.com/wuhaifengdhu/zh_segment/docs
+.. _`zh_segment Documentation`: https://github.com/wuhaifengdhu/zh_segment/tree/master/docs/docs
 .. _`zh_segment at PyPI`: https://pypi.python.org/pypi/zh_segment
 .. _`zh_segment at Github`: https://github.com/wuhaifengdhu/zh_segment
 .. _`zh_segment Issue Tracker`: https://github.com/wuhaifengdhu/zh_segment/issues
@@ -135,7 +135,7 @@ Reference and Indices
 zh_segment License
 -------------------
 
-Copyright 2016 Grant Jenks
+Copyright 2017 Wu Haifeng
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
