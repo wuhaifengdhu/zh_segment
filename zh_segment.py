@@ -6,8 +6,8 @@ For humans, it's relatively easy to parse. This module makes it easy for
 machines too. Use `segment` to parse a phrase into its parts:
 
 >>> from zh_segment import segment
->>> segment('thisisatest')
-['this', 'is', 'a', 'test']
+>>> segment('1077501; 1296599; 5000; 5000; 4975; 36 months; 10.64%; 162.87; B; B2;;10+ years;RENT')
+['1077501', '1296599', '5000', '5000', '4975', '36', 'months', '10.64%', '162.87', 'B', 'B2', '10+', 'years', 'RENT']
 
 In the code, 1024908267229 is the total number of words in the corpus. A
 subset of this corpus is found in unigrams.txt and bigrams.txt which
@@ -15,7 +15,7 @@ should accompany this file. A copy of these files may be found at
 http://norvig.com/ngrams/ under the names count_1w.txt and count_2w.txt
 respectively.
 
-Copyright (c) 2016 by Wu Haifeng
+Copyright (c) 2016 by Z&H
 
 Based on code from the chapter "Natural Language Corpus Data"
 from the book "Beautiful Data" (Segaran and Hammerbacher, 2009)
@@ -41,7 +41,7 @@ UNIGRAMS = None
 
 def clean(text):
     "Return `text` lower-cased with non-alphanumeric characters removed."
-    return ''.join(letter for letter in text.lower() if letter not in SEPARATORS)
+    return ''.join(letter.strip() for letter in text if letter not in SEPARATORS)
 
 
 def divide(text, limit=24):
@@ -177,12 +177,11 @@ def main(args=()):
         streams.outfile.write(os.linesep)
 
 if __name__ == '__main__':
-    # main(sys.argv[1:])
-    print segment('1077501; 1296599; 5000; 5000; 4975; 36 months; 10.64%; 162.87; B; B2;;10+ years;RENT')
+    main(sys.argv[1:])
 
 __title__ = 'zh_segment'
-__version__ = '0.2.0.0'
+__version__ = '1.0.0'
 __build__ = 0x000800
-__author__ = 'Wu Haifeng'
+__author__ = 'Z&H'
 __license__ = 'Apache 2.0'
-__copyright__ = 'Copyright 2016 Wu Haifeng'
+__copyright__ = 'Copyright 2016 Z&H'

@@ -32,7 +32,7 @@ Features
 - Developed on Python 2.7
 - Tested on CPython 2.6, 2.7, 3.2, 3.3, 3.4 and PyPy 2.5+, PyPy3 2.4+
 
-.. image:: https://github.com/wuhaifengdhu/zh_segment/tree/master/docs/_static/zh_segment.png
+.. image:: https://github.com/wuhaifengdhu/zh_segment/blob/master/docs/_static/zh_segment.png?raw=true
     :target: https://github.com/wuhaifengdhu/zh_segment
 
 Quickstart
@@ -56,8 +56,8 @@ In your own Python programs, you'll mostly want to use `segment` to divide a
 phrase into a list of its parts::
 
     >>> from zh_segment import segment
-    >>> segment('thisisatest')
-    ['this', 'is', 'a', 'test']
+    >>> segment('1077501; 1296599; 5000; 5000; 4975; 36 months; 10.64%; 162.87; B; B2;;10+ years;RENT')
+    ['1077501', '1296599', '5000', '5000', '4975', '36', 'months', '10.64%', '162.87', 'B', 'B2', '10+', 'years', 'RENT']
 
 zh_segment also provides a command-line interface for batch processing. This
 interface accepts two arguments: in-file and out-file. Lines from in-file are
@@ -135,7 +135,7 @@ Reference and Indices
 zh_segment License
 -------------------
 
-Copyright 2017 Wu Haifeng
+Copyright 2017 Z&H
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

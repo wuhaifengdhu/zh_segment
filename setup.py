@@ -23,7 +23,7 @@ setup(
     version=zh_segment.__version__,
     description='English word segmentation.',
     long_description=readme,
-    author='Wu Haifeng',
+    author='Z&H',
     author_email='wuhaifengdhu@163.com',
     url='https://github.com/wuhaifengdhu/zh_segment/tree/master/docs',
     py_modules=['zh_segment'],
