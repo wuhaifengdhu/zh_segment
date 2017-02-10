@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Word Segment'
-copyright = u'2016, Z&H'
+copyright = u'2017, Z&H'
 author = u'Z&H'
 
 # The version info for the project you're documenting, acts as replacement for

@@ -9,7 +9,7 @@ machines too. Use `segment` to parse a phrase into its parts:
 >>> segment('1077501; 1296599; 5000; 5000; 4975; 36 months; 10.64%; 162.87; B; B2;;10+ years;RENT')
 ['1077501', '1296599', '5000', '5000', '4975', '36', 'months', '10.64%', '162.87', 'B', 'B2', '10+', 'years', 'RENT']
 
-In the code, 1024908267229 is the total number of words in the corpus. A
+In the code, 1040034723697 is the total number of words in the corpus. A
 subset of this corpus is found in unigrams.txt and bigrams.txt which
 should accompany this file. A copy of these files may be found at
 http://norvig.com/ngrams/ under the names count_1w.txt and count_2w.txt
@@ -30,6 +30,7 @@ import math
 import os.path as op
 import sys
 import re
+import pandas
 
 ALPHABET = set('abcdefghijklmnopqrstuvwxyz0123456789')
 SEPARATORS = set(';')
@@ -72,6 +73,8 @@ def score(word, prev=None):
     if UNIGRAMS is None and BIGRAMS is None:
         load()
 
+    word = word.lower()
+
     if prev is None:
         if word in UNIGRAMS:
 
@@ -84,6 +87,8 @@ def score(word, prev=None):
 
             return 10.0 / (TOTAL * 10 ** len(word))
     else:
+        prev = prev.lower()
+
         bigram = '{0} {1}'.format(prev, word)
 
         if bigram in BIGRAMS and prev in UNIGRAMS:
@@ -155,6 +160,56 @@ def segment(text):
     return result
 
 
+def parse_excel(excel_file_name):
+    single_dic = {}
+    double_dic = {}
+    probability_dic = {}
+    total = 0
+
+    data_frame = pandas.read_excel(excel_file_name, 0)
+    for index, row in data_frame.iterrows():
+        for cell_text in row:
+            cell_text = str(cell_text).lower()
+            words = segment(cell_text)
+            l = len(words)
+            total += l
+            for i in range(l - 1):
+                single_dic[words[i]] = 1 if words[i] not in single_dic.keys() else single_dic[words[i]] + 1
+                pair = '{0} {1}'.format(words[i], words[i + 1])
+                double_dic[pair] = 1 if pair not in double_dic.keys() else double_dic[pair] + 1
+            single_dic[words[l - 1]] = 1 if words[l - 1] not in single_dic.keys() else single_dic[words[l - 1]] + 1
+    print 'Single dic = %s' % single_dic
+    print 'double dic = %s' % double_dic
+    for pair in double_dic.keys():
+        word1, word2 = pair.split(' ')
+        probability_dic[pair] = double_dic[pair] * 1.0 / (single_dic[word1] + single_dic[word2])
+    return probability_dic
+
+
+def save_probability_to_file(probability_dic, dic_file):
+    writer = io.open(dic_file, 'wb', encoding='utf-8')
+    for key, value in probability_dic.items():
+        writer.write(key + '\t' + str(value))
+    writer.close()
+
+
+def segment_phrase(text, probability_dic, rate):
+    result = segment(text)
+    result.append('')
+    phrases = []
+    phrase = ''
+    for i in range(len(result) - 1):
+        pair = '{0} {1}'.format(result[i].lower(), result[i + 1].lower())
+        phrase += ' ' + result[i] if len(phrase) > 0 else result[i]
+        # TODO cluster to generate the rate automatically
+        if pair not in probability_dic.keys() or probability_dic[pair] < rate:
+            phrases.append(phrase)
+            phrase = ''
+    if len(phrase) > 0:
+        phrases.append(phrase)
+    return phrases
+
+
 def main(args=()):
     """Command-line entry-point. Parses `args` into in-file and out-file then
     reads lines from in-file, segments the lines, and writes the result to
@@ -180,8 +235,8 @@ if __name__ == '__main__':
     main(sys.argv[1:])
 
 __title__ = 'zh_segment'
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 __build__ = 0x000800
 __author__ = 'Z&H'
 __license__ = 'Apache 2.0'
-__copyright__ = 'Copyright 2016 Z&H'
+__copyright__ = 'Copyright 2017 Z&H'
