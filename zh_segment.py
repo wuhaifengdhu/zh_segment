@@ -172,6 +172,8 @@ def parse_excel(excel_file_name):
             cell_text = str(cell_text).lower()
             words = segment(cell_text)
             l = len(words)
+            if l == 0:
+                continue
             total += l
             for i in range(l - 1):
                 single_dic[words[i]] = 1 if words[i] not in single_dic.keys() else single_dic[words[i]] + 1
