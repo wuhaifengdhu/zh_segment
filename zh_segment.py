@@ -31,6 +31,7 @@ import os.path as op
 import sys
 import re
 import pandas
+import unicodedata
 
 ALPHABET = set('abcdefghijklmnopqrstuvwxyz0123456789')
 SEPARATORS = set(';')
@@ -156,7 +157,10 @@ def segment(text):
     "Return a list of words that is the best segmenation of `text`."
     result = []
     for x in re.split(';', text):
-        result.extend(list(isegment(x)))
+        # Deal with condition digital and letter mix
+        y_list = [y for y in re.split('(\d+)', x) if len(y) > 0]
+        for k in y_list:
+            result.extend(list(isegment(k)))
     return result
 
 
@@ -166,25 +170,48 @@ def parse_excel(excel_file_name):
     probability_dic = {}
     total = 0
 
+    # step 1, read content from excel
     data_frame = pandas.read_excel(excel_file_name, 0)
+    excel_content = []
     for index, row in data_frame.iterrows():
         for cell_text in row:
-            cell_text = str(cell_text).lower()
-            words = segment(cell_text)
-            l = len(words)
-            if l == 0:
-                continue
-            total += l
-            for i in range(l - 1):
-                single_dic[words[i]] = 1 if words[i] not in single_dic.keys() else single_dic[words[i]] + 1
-                pair = '{0} {1}'.format(words[i], words[i + 1])
-                double_dic[pair] = 1 if pair not in double_dic.keys() else double_dic[pair] + 1
-            single_dic[words[l - 1]] = 1 if words[l - 1] not in single_dic.keys() else single_dic[words[l - 1]] + 1
-    print 'Single dic = %s' % single_dic
-    print 'double dic = %s' % double_dic
-    for pair in double_dic.keys():
-        word1, word2 = pair.split(' ')
-        probability_dic[pair] = double_dic[pair] * 1.0 / (single_dic[word1] + single_dic[word2])
+            try:
+                cell_text = str(cell_text).lower()
+            except UnicodeEncodeError:
+                cell_text = unicodedata.normalize('NFKD', cell_text).encode('ascii', 'ignore')
+            excel_content.append(str(cell_text).lower())
+    print "Finished reading content from excel, reading %i cell" % len(excel_content)
+
+    # step 2, statistic single and double words
+    while True:
+        try:
+            # remove content to free more space
+            text = excel_content.pop(0)
+        except IndexError:
+            break
+
+        words = segment(text)
+        l = len(words)
+        if l == 0:
+            continue
+
+        total += l
+        for i in range(l - 1):
+            single_dic[words[i]] = 1 if words[i] not in single_dic.keys() else single_dic[words[i]] + 1
+            pair = words[i] + " " + words[i + 1]
+            double_dic[pair] = 1 if pair not in double_dic.keys() else double_dic[pair] + 1
+        single_dic[words[l - 1]] = 1 if words[l - 1] not in single_dic.keys() else single_dic[words[l - 1]] + 1
+    print 'Finished build single and double dic!'
+
+    # step 3, calculate probability
+    while True:
+        try:
+            key, value = double_dic.popitem()
+        except KeyError:
+            break
+        word1, word2 = key.split(' ')
+        probability_dic[key] = value * 1.0 / (single_dic[word1] + single_dic[word2])
+    del single_dic
     return probability_dic
 
 
@@ -237,7 +264,9 @@ if __name__ == '__main__':
     main(sys.argv[1:])
 
 __title__ = 'zh_segment'
-__version__ = '1.1.0'
+print "welcome to use %s for English segment" % __title__
+__version__ = '1.1.2'
+print "Version: %s" % __version__
 __build__ = 0x000800
 __author__ = 'Z&H'
 __license__ = 'Apache 2.0'
