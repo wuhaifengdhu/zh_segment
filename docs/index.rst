@@ -57,7 +57,7 @@ phrase into a list of its parts::
 
     >>> from zh_segment import segment
     >>> segment('1077501; 1296599; 5000; 5000; 4975; 36 months; 10.64%; 162.87; B; B2;;10+ years;RENT')
-    ['1077501', '1296599', '5000', '5000', '4975', '36', 'months', '10.64%', '162.87', 'B', 'B2', '10+', 'years', 'RENT']
+    ['1077501', '1296599', '5000', '5000', '4975', '36', 'months', '10.64%', '162.87', 'B', 'B', '2', '10+', 'years', 'RENT']
 
 zh_segment also provides a command-line interface for batch processing. This
 interface accepts two arguments: in-file and out-file. Lines from in-file are

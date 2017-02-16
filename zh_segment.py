@@ -7,7 +7,7 @@ machines too. Use `segment` to parse a phrase into its parts:
 
 >>> from zh_segment import segment
 >>> segment('1077501; 1296599; 5000; 5000; 4975; 36 months; 10.64%; 162.87; B; B2;;10+ years;RENT')
-['1077501', '1296599', '5000', '5000', '4975', '36', 'months', '10.64%', '162.87', 'B', 'B2', '10+', 'years', 'RENT']
+['1077501', '1296599', '5000', '5000', '4975', '36', 'months', '10.64%', '162.87', 'B', 'B', '2', '10+', 'years', 'RENT']
 
 In the code, 1040034723697 is the total number of words in the corpus. A
 subset of this corpus is found in unigrams.txt and bigrams.txt which
@@ -154,13 +154,16 @@ def isegment(text):
 
 
 def segment(text):
-    "Return a list of words that is the best segmenation of `text`."
+    """Return a list of words that is the best segmenation of `text`."""
     result = []
-    for x in re.split(';', text):
+    for x in re.split(';|,| ', text):
         # Deal with condition digital and letter mix
-        y_list = [y for y in re.split('(\d+)', x) if len(y) > 0]
-        for k in y_list:
-            result.extend(list(isegment(k)))
+        y_list = [y for y in re.split('([\d|.|-|%|+]+)', x) if len(y) > 0]
+        for y in y_list:
+            if len(y) < 9:
+                result.append(y)
+            else:
+                result.extend(list(isegment(y)))
     return result
 
 
@@ -179,7 +182,7 @@ def parse_excel(excel_file_name):
                 cell_text = str(cell_text).lower()
             except UnicodeEncodeError:
                 cell_text = unicodedata.normalize('NFKD', cell_text).encode('ascii', 'ignore')
-            excel_content.append(str(cell_text).lower())
+            excel_content.append(cell_text)
     print "Finished reading content from excel, reading %i cell" % len(excel_content)
 
     # step 2, statistic single and double words
@@ -216,7 +219,7 @@ def parse_excel(excel_file_name):
 
 
 def save_probability_to_file(probability_dic, dic_file):
-    writer = io.open(dic_file, 'wb', encoding='utf-8')
+    writer = io.open(dic_file, 'w', encoding='utf-8')
     for key, value in probability_dic.items():
         writer.write(key + '\t' + str(value))
     writer.close()
@@ -265,7 +268,7 @@ if __name__ == '__main__':
 
 __title__ = 'zh_segment'
 print "welcome to use %s for English segment" % __title__
-__version__ = '1.1.2'
+__version__ = '1.1.6'
 print "Version: %s" % __version__
 __build__ = 0x000800
 __author__ = 'Z&H'
