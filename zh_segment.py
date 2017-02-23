@@ -158,7 +158,7 @@ def segment(text):
     result = []
     for x in re.split(';|,| ', text):
         # Deal with condition digital and letter mix
-        y_list = [y for y in re.split('([\d|.|-|%|+]+)', x) if len(y) > 0]
+        y_list = [y for y in re.split('([\d|-|%|+]+)', x) if len(y) > 0]
         for y in y_list:
             if len(y) < 9:
                 result.append(y)
