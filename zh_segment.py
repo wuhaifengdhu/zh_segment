@@ -268,7 +268,7 @@ if __name__ == '__main__':
 
 __title__ = 'zh_segment'
 print "welcome to use %s for English segment" % __title__
-__version__ = '1.1.6'
+__version__ = '1.1.7'
 print "Version: %s" % __version__
 __build__ = 0x000800
 __author__ = 'Z&H'
