@@ -66,7 +66,7 @@ def parse_file(filename):
     "Read `filename` and parse tab-separated file of (word, count) pairs."
     with io.open(filename, encoding='utf-8') as reader:
         lines = (line.split('\t') for line in reader)
-        return dict((word, float(number)) for word, number in lines)
+        return dict((word.lower(), float(number)) for word, number in lines)
 
 
 def score(word, prev=None):
@@ -264,11 +264,12 @@ def main(args=()):
         streams.outfile.write(os.linesep)
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    # main(sys.argv[1:])
+    segment_phrase(u'2 3000', )
 
 __title__ = 'zh_segment'
 print "welcome to use %s for English segment" % __title__
-__version__ = '1.1.7'
+__version__ = '1.1.9'
 print "Version: %s" % __version__
 __build__ = 0x000800
 __author__ = 'Z&H'
