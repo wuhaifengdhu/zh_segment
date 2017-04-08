@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: iso-8859-1 -*-
 """English Word Segmentation in Python
 
 Word segmentation is the process of dividing a phrase without spaces back
@@ -25,6 +27,7 @@ Original Copyright (c) 2008-2009 by Peter Norvig
 
 """
 
+
 import io
 import math
 import os.path as op
@@ -32,6 +35,11 @@ import sys
 import re
 import pandas
 import unicodedata
+
+reload(sys)
+sys.setdefaultencoding('iso-8859-1')
+# print sys.getdefaultencoding()  # prints "iso-8859-1"
+
 
 ALPHABET = set('abcdefghijklmnopqrstuvwxyz0123456789')
 SEPARATORS = set(';')
@@ -64,7 +72,7 @@ def load():
 
 def parse_file(filename):
     "Read `filename` and parse tab-separated file of (word, count) pairs."
-    with io.open(filename, encoding='utf-8') as reader:
+    with io.open(filename, encoding='iso-8859-1') as reader:
         lines = (line.split('\t') for line in reader)
         return dict((word.lower(), float(number)) for word, number in lines)
 
@@ -264,12 +272,13 @@ def main(args=()):
         streams.outfile.write(os.linesep)
 
 if __name__ == '__main__':
-    # main(sys.argv[1:])
-    segment_phrase(u'2 3000', )
+    main(sys.argv[1:])
+    # probability = parse_file("ruidian.dic")
+    # print segment_phrase('≈≈‰ƒƒƒ÷÷ˆˆ English some words‰‰‰', probability, 0.3)
 
 __title__ = 'zh_segment'
 print "welcome to use %s for English segment" % __title__
-__version__ = '1.1.9'
+__version__ = '1.2.0'
 print "Version: %s" % __version__
 __build__ = 0x000800
 __author__ = 'Z&H'
