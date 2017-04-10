@@ -234,6 +234,7 @@ def save_probability_to_file(probability_dic, dic_file):
 
 
 def segment_phrase(text, probability_dic, rate):
+    text = unicode(text)
     result = segment(text)
     result.append('')
     phrases = []
@@ -243,10 +244,10 @@ def segment_phrase(text, probability_dic, rate):
         phrase += ' ' + result[i] if len(phrase) > 0 else result[i]
         # TODO cluster to generate the rate automatically
         if pair not in probability_dic.keys() or probability_dic[pair] < rate:
-            phrases.append(phrase)
+            phrases.append(unicode(phrase))
             phrase = ''
     if len(phrase) > 0:
-        phrases.append(phrase)
+        phrases.append(unicode(phrase))
     return phrases
 
 
@@ -273,12 +274,14 @@ def main(args=()):
 
 if __name__ == '__main__':
     main(sys.argv[1:])
-    # probability = parse_file("ruidian.dic")
-    # print segment_phrase('ÅÅäÄÄÄÖÖöö English some wordsäää', probability, 0.3)
+    # probability = parse_file("my.dic")
+    # for x in segment_phrase('ÅÅäÄÄÄÖÖöö English some wordsäää cc', probability, 0.3):
+    #     print x
+
 
 __title__ = 'zh_segment'
 print "welcome to use %s for English segment" % __title__
-__version__ = '1.2.0'
+__version__ = '1.2.1'
 print "Version: %s" % __version__
 __build__ = 0x000800
 __author__ = 'Z&H'
